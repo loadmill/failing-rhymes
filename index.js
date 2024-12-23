@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const aiAgent = require('./aiAgent');
+const aiAgent = require('./ai-agent');
 
 const failFailed = (err = `It's sad, so sad. It's a sad, sad situation 🎶`) => {
     core.setFailed(err);
@@ -14,6 +14,12 @@ try {
     const user = core.getInput('user');
 
     const ghToken = core.getInput('ghToken');
+
+    if (!openAIToken) {
+        return `
+          Without a token, you're out of luck,
+          The gates to OpenAI are firmly stuck!`;
+    }
     const rhyme = await aiAgent.createFailureRhyme(openAIToken, failureDescription, user);
     await postRhymeToGitHub(rhyme, ghToken);
 
@@ -22,7 +28,7 @@ try {
 }
 })()
 .then(() => {
-    console.log(`Finished runnning Loadmill Test Plan`);
+    console.log(`Finished runnning Failure Rhyme Action`);
 });
 
 async function postRhymeToGitHub(rhyme, token) {

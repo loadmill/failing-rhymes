@@ -1,16 +1,13 @@
-import {
-  Configuration,
-  OpenAIApi,
-} from 'openai';
+const OpenAI = require('openai');
 
 async function createFailureRhyme(apiKey, failureDescription, user) {
   try {
-    const openai = new OpenAIApi(new Configuration({
-      apiKey,
-    }));
+    const openai = new OpenAI({
+      apiKey
+    });
 
-    const response = await openai.createChatCompletion(getChatCompletionRequest(failureDescription, user));
-    const rhyme = response.data.choices?.[0]?.message?.content
+    const response = await openai.chat.completions.create(getChatCompletionRequest(failureDescription, user));
+    const rhyme = response.choices?.[0]?.message?.content
 
     return rhyme;
   } catch (error) {
@@ -20,15 +17,17 @@ async function createFailureRhyme(apiKey, failureDescription, user) {
 }
 
 const getChatCompletionRequest = (failureDescription, user) => {
-  
-  const prompt = `
-    You are a witted engineer and you need to create a rhyme about a failure that happened when running a GitHub Action on the current commit.
-    It has to be short and witted - no more then 4 lines. Dont insolt the engineer that caused it. Be funny.
-    The failtre is - ${failureDescription} and the user who casued it is - ${user}.`;
-
   return {
     model : "gpt-4o",
-    messages,
+    messages: [{
+      role: "system",
+      content: "You are a witty engineer who creates short, funny rhymes about GitHub Action failures."
+    }, {
+      role: "user",
+      content: `Create a witty rhyme (max 4 lines) about this GitHub Action failure. Be funny but don't insult the engineer.
+               Failure: ${failureDescription}
+               User: ${user}`
+    }],
     max_tokens: 100,
     n: 1,
     stream: false,
