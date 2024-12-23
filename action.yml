@@ -1,0 +1,24 @@
+name: 'Failing Rhymes'
+description: 'Rhymes for the saddest of commits'
+inputs:
+  openAIToken:
+    description: 'Open AI token'
+    required: true
+  ghToken:
+    description: 'GitHub token'
+    required: true
+  failureDescription:
+    description: 'The failre description of the commit' 
+    required: true
+  user:
+    description: 'The user who made the commit'
+    required: true
+outputs:
+  rhyme:
+    description: 'A sad poem'
+runs:
+  using: 'node16'
+  main: 'index.js'
+branding:
+  icon: 'check'
+  color: 'blue'
