@@ -1,3 +1,4 @@
+name: main
 on: [push, workflow_dispatch]
 
 jobs:
@@ -11,17 +12,3 @@ jobs:
         run: |
           echo "About to fail..."
           exit 1
-      - name: test_our_action_step
-        uses: ./ # Uses an action in the root directory
-        id: failingRhymes
-        with:
-          openAIToken: ${{ secrets.OPENAI_API_TOKEN }}
-          ghToken: ${{ secrets.GH_API_TOKEN }}
-          failureDescription: "Commit ${{ github.ref }} by ${{ github.actor }}"
-          user: '${{ github.actor }}'
-          parameters: 'testParam=testValue,anotherTestParam=anotherTestValue'
-          healthcheckURL: 'https://loadmill-test-blog.herokuapp.com/'
-          healthcheckTimeout: '10'
-      # Use the output from the `test_our_action_step` step
-      - name: Get the output result
-        run: echo "The result was ${{ steps.failingRhymes.outputs.result }}"
