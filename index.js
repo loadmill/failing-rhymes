@@ -37,18 +37,20 @@ async function postRhymeToGitHub(rhyme, token) {
   try {
     const octokit = github.getOctokit(token);
 
-    const { owner, repo } = github.context.repo;
+    const owner = github.context.payload.workflow_run.owner.login;
+    const repo = github.context.payload.workflow_run.repository.name;
+    console.log(`owner: ${owner}, repo: ${repo}`);
     console.log(JSON.stringify(github.context, null, 2));
-    const issue_number = github.context.payload.issue.number;
+    const pr = github.context.payload.workflow_run.pull_requests[0].number;
 
     const comment = await octokit.rest.issues.createComment({
         owner,
         repo,
-        issue_number,
+        issue_number: pr,
         body: rhyme,
     });
 
-    return comment;
+    console.log(JSON.stringify(comment));
   } catch (e) {
     console.error("Error posting rhyme to GitHub:", e);
   }
