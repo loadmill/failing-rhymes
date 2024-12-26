@@ -51,6 +51,7 @@ async function postRhymeToGitHub(rhyme, token) {
     });
 
     console.log(JSON.stringify(comment));
+    console.log(`Posted rhyme to GitHub PR ${pr}`);
   } catch (e) {
     console.error("Error posting rhyme to GitHub:", e);
   }
