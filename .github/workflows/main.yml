@@ -6,8 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to rhyme
     steps:
-      # To use this repository's private action,
-      # you must check out the repository
       - name: This step will fail
         run: |
           echo "About to fail..."
