@@ -38,6 +38,7 @@ async function postRhymeToGitHub(rhyme, token) {
     const octokit = github.getOctokit(token);
 
     const { owner, repo } = github.context.repo;
+    console.log(JSON.stringify(github.context, null, 2));
     const issue_number = github.context.payload.issue.number;
 
     const comment = await octokit.rest.issues.createComment({
