@@ -14,3 +14,14 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
       - run: echo 'The triggering workflow failed ${{ github.event.workflow_run }}'
+      - name: test_our_action_step
+        uses: ./ # Uses an action in the root directory
+        id: failingRhymes
+        with:
+          openAIToken: ${{ secrets.OPENAI_API_TOKEN }}
+          ghToken: ${{ secrets.GH_API_TOKEN }}
+          failureDescription: "Commit ${{ github.ref }} by ${{ github.actor }}"
+          user: '${{ github.event.workflow_run.actor.name }}'
+      # Use the output from the `test_our_action_step` step
+      - name: Get the output rhyme
+        run: echo "The rhyme was ${{ steps.failingRhymes.outputs.rhyme }}"

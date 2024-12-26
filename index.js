@@ -23,6 +23,8 @@ try {
     const rhyme = await aiAgent.createFailureRhyme(openAIToken, failureDescription, user);
     await postRhymeToGitHub(rhyme, ghToken);
 
+    core.setOutput("rhyme", rhyme);
+
 } catch (error) {
     failFailed(error.message);
 }
@@ -32,6 +34,7 @@ try {
 });
 
 async function postRhymeToGitHub(rhyme, token) {
+  try {
     const octokit = github.getOctokit(token);
 
     const { owner, repo } = github.context.repo;
@@ -45,4 +48,7 @@ async function postRhymeToGitHub(rhyme, token) {
     });
 
     return comment;
+  } catch (e) {
+    console.error("Error posting rhyme to GitHub:", e);
+  }
 }
