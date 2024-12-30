@@ -1,4 +1,4 @@
-# Run Loadmill Test Plan action
+# Failing Rhymes action
 
 This action meant to be triggered when your workflow has failed. It ask for a rhyme from OpenAI and post it to the pull request that triggered the workflow.
 
