@@ -1,25 +1,17 @@
 # Failing Rhymes action
 
-This action meant to be triggered when your workflow has failed. It ask for a rhyme from OpenAI and post it to the pull request that triggered the workflow.
+## What is it ?
+This action is meant to be triggered when your workflow has failed. It asks for a rhyme from OpenAI and posts it to the pull request that triggered the workflow.
 
 ## Inputs
 
-### `openAIToken`
+| Name | Description | Required |
+| --- | --- | --- |
+| `openAIToken` | A token to use OpenAI API. You can get one by signing up to OpenAI and creating an API key| ✅ |
+| `ghToken` | A token to use GitHub API. You can get one by creating a personal access token in your GitHub account| ✅ |
+| `failureDescription` | A description of the failure. Recommended to include the commit that triggered the workflow or any other data you can find in the payload of the action| ✅ |
+| `user` | The user who made the commit that triggered the workflow. For example: `'${{ github.event.workflow_run.actor.name }}'`| ✅ |
 
-**Required** A token to use OpenAI API. You can get one by signing up to OpenAI and creating an API key.
-
-### `ghToken`
-
-**Required** A token to use GitHub API. You can get one by creating a personal access token in your GitHub account.
-
-### `failureDescription`
-
-**Required** A description of the failure. Recommended to include the commit that triggered the workflow or any other data you can find in the payload of the action.
-For example: `"Commit ${{ github.ref }} by ${{ github.actor }}"`
-
-### `user`
-
-**Required** The user who made the commit that triggered the workflow. For example: `'${{ github.event.workflow_run.actor.name }}'`
 
 ## Outputs
 
