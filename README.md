@@ -11,6 +11,7 @@ This action is meant to be triggered when your workflow has failed. It asks for 
 | `ghToken` | A token to use GitHub API. You can get one by creating a personal access token in your GitHub account| ✅ |
 | `failureDescription` | A description of the failure. Recommended to include the commit that triggered the workflow or any other data you can find in the payload of the action| ✅ |
 | `user` | The user who made the commit that triggered the workflow. For example: `'${{ github.event.workflow_run.actor.name }}'`| ✅ |
+| `pr` | The number of the PR to update with the rhyme | |
 
 
 ## Outputs
