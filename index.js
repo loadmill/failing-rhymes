@@ -12,6 +12,7 @@ try {
     const openAIToken = core.getInput('openAIToken');
     const failureDescription = core.getInput('failureDescription');
     const user = core.getInput('user');
+    const pr = core.getInput('pr');
 
     const ghToken = core.getInput('ghToken');
 
@@ -21,7 +22,7 @@ try {
           The gates to OpenAI are firmly stuck!`;
     }
     const rhyme = await aiAgent.createFailureRhyme(openAIToken, failureDescription, user);
-    await postRhymeToGitHub(rhyme, ghToken);
+    await postRhymeToGitHub(rhyme, ghToken, pr);
 
     core.setOutput("rhyme", rhyme);
 
@@ -33,7 +34,7 @@ try {
     console.log(`Finished runnning Failure Rhyme Action`);
 });
 
-async function postRhymeToGitHub(rhyme, token) {
+async function postRhymeToGitHub(rhyme, token, pr) {
   try {
     const octokit = github.getOctokit(token);
 
@@ -41,7 +42,9 @@ async function postRhymeToGitHub(rhyme, token) {
     const repo = github.context.payload.repository.name;
     console.log(`owner: ${owner}, repo: ${repo}`);
     console.log(JSON.stringify(github.context, null, 2));
-    const pr = github.context.payload.workflow_run.pull_requests[0].number;
+    if (!pr) {
+      pr = github.context.payload.workflow_run.pull_requests[0].number;
+    }
 
     const comment = await octokit.rest.issues.createComment({
         owner,

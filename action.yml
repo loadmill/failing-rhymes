@@ -13,6 +13,9 @@ inputs:
   user:
     description: 'The user who made the commit'
     required: true
+  pr:
+    description: 'The number of the Pull Request'
+    required: false
 outputs:
   rhyme:
     description: 'A sad poem'
